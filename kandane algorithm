@@ -1,0 +1,44 @@
+Largest Sum contiguous subarray/Maximum subarray sum
+
+--- suppose array is  {-5,4,6,-2,4,-1} largets subarray with max sum is 4,6,-2,4 you can solve by dp by partiton by the most efficient algo is kandanes
+see simple logic and this is a very simple algorithm first of all if the postitve element are coming one by one you will always take those elements as that will
+increase your sum like {1,2,3,4,5,6}  the largest subarray with the greatest sum will be the subarray itself now things change when the negative elements come into
+the picture consider the eg 1,2,-9,3,4 now you traverse the array from index 0 you will get +ve ele you include in your sum now if you reach index 3 you sum till this 
+index excluding the current element will be -6 now you will take the current ele as it is +ve and it will increase your sum but you will not be able to take previous sum
+till now as it will only decrease the sum as it is negative -6 it is decreasing my sum why would i take it so we discard that so we discard that negative sum and only
+take into consideration the positive sum we earlier got which was 1+2=3 now we start a new sum from index 3 
+
+so simple approach whenever you see negative sum discard that and consider only the postive sum you got till now
+time-O(N)
+    long long maxSubarraySum(int arr[], int n){
+        
+        // Your code here
+        int maximum=INT_MIN,currsum=0;
+        for(int i=0;i<n;i++)
+        {
+            currsum+=arr[i];
+            maximum=max(maximum,currsum);
+            if(currsum<0)
+            currsum=0;
+        }
+        return maximum;
+    }
+    
+    //Another variation
+    
+    Smallest sum contiguous subarray
+     int smallestSumSubarray(vector<int>& arr){
+      //Code here
+      int n=arr.size();
+           int minimum=INT_MAX,currsum=0;
+        for(int i=0;i<n;i++)
+        {
+            currsum+=arr[i];
+            minimum=min(minimum,currsum);
+            if(currsum>0)
+            currsum=0;
+        }
+        return minimum;
+  }
+  just make changes to largest sum code and you get smallest sum code... vice versa changes..
+    
