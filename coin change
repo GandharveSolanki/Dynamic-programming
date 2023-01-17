@@ -1,0 +1,37 @@
+//the below code is made up by you and it looks nice
+
+   int solution(int i,int amount,vector<int>&coins,vector<vector<int>>&dp)
+    {
+        if(i==0)
+        {
+            if(amount%coins[i]==0)
+             return amount/coins[i];
+            return INT_MAX;
+        }
+        if(amount==0)
+        {
+            return 0;
+        }
+        if(dp[i][amount]!=-1)
+        return dp[i][amount];
+         int notinc=solution(i-1,amount,coins,dp);
+        int temp=INT_MAX;
+        for(int ind=1;ind<=amount/coins[i];ind++)
+        {
+            int temp1=solution(i-1,amount-ind*coins[i],coins,dp);
+            if(temp1!=INT_MAX)
+            temp=min(temp,ind+temp1);
+        }
+        return dp[i][amount]=min(temp,notinc);
+    }
+    int coinChange(vector<int>& coins, int amount)
+    {
+        int n=coins.size();
+    vector<vector<int>> dp(n,vector<int>(amount+1,-1));
+    int ans=solution(n-1,amount,coins,dp);
+        if(ans==INT_MAX)
+        return -1;
+        return ans;
+    }
+    
+    other code with diff style in your copy
