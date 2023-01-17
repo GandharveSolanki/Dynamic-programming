@@ -1,0 +1,87 @@
+https://www.codingninjas.com/codestudio/problems/number-of-subsets_3952532?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=0
+
+above is the link to the problem
+
+now see in this problem there is a 0 case which you have to handle 
+
+writing recursion is very easy
+int solution(int i,int tar,vector<int>&arr,vector<vector<int>>&dp)
+{
+    if(i==0)
+    {
+        if(tar==0&&arr[0]==0)
+        return 2;
+        else if(tar==0)
+        return 1;
+        else if(tar==arr[0])
+         return 1;
+        return 0;
+    }
+    if(dp[i][tar]!=-1)
+    return dp[i][tar];
+     int inc=0;
+    if(arr[i]<=tar)
+    inc=solution(i-1,tar-arr[i],arr,dp);
+    int notinc=solution(i-1,tar,arr,dp);
+    return dp[i][tar]=inc+notinc;
+}
+
+above is the code
+
+but converting it into tabulation is tough
+
+while converting the base case you have to be very careful...
+
+
+  if(i==0)
+    {
+        if(tar==0&&arr[0]==0)
+        return 2;
+        else if(tar==0)
+        return 1;
+        else if(tar==arr[0])
+         return 1;
+        return 0;
+    }
+    
+    if you see the base case everything revolves around index 0
+    
+    now one more immp thing if tar==0 && arr[0]==0 you have to return 2 
+    so in tablulation this condition have to be at last after all the base cases as in recusrion if this is true we return 2 immediately
+    
+    int findWays(vector<int> &num, int tar)
+{
+  int n=num.size();
+    vector<vector<int>>dp(n,vector<int>(tar+1,0));
+    //tabulation
+    
+   
+        dp[0][0]=1;
+  
+   
+    if(num[0]<=tar)
+    dp[0][num[0]]=1;  ///see in base case cond is if arr[0]==tar then return 1 now in you recursion the target is getting reduced and if it becomes equal to arr[0]
+    //then you have to return 1 so if num[0]<=tar and if tar==num[0] so if tar becomes equal to num[0] so in short we can put dp[0][num[0]] see first parameter is index
+    which is 0 second parameter is target so if target is equal to num[0] this implies dp[0][num[0]=1 only if num[0]<=tar
+    
+    if(num[0]==0)
+    dp[0][0]=2;//this condition should be last other wise you will end up putting wrong value
+    
+   
+    for(int i=1;i<n;i++)
+    {
+        for(int j=0;j<=tar;j++)
+        {
+            int notpick=dp[i-1][j];
+    
+            int pick=0;
+            
+            if(num[i]<=j)
+                pick=dp[i-1][j-num[i]] ;
+            
+            dp[i][j]=pick+notpick;
+            
+        }
+    }
+    return dp[n-1][tar];
+}
